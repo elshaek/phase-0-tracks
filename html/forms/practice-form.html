@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Welcome to the feedback form!</title>
+</head>
+<body>
+<form name="visitor survey" action="success.html" method="post">
+  <fieldset>
+  
+    <div>
+      <label>Type of pasta:</label>
+      <select name="pasta">
+        <option value="spaghetti">Spaghetti</option>
+        <option value="penne">Penne</option>
+        <option value="macaroni">Macaroni</option>
+      </select>
+    </div>
+    <div>
+        <label>Feedback for your meal:</label>
+        <textarea name="comment card" rows="5" cols="25">Comments, please</textarea>
+
+    </div>
+    <div>    
+      <label>Date of visit:</label>
+      <input type="date" name="date">
+    </div>
+    <div>
+      <label>Email:</label>
+      <input type="email" name="email">
+    </div>
+    <div>
+      <input type="checkbox" name="cb-agree" value="agree">
+      Join our mailing list!
+    </div>
+  </fieldset>
+  
+  <button type="submit">Please click after selecting</button>
+</form>
+</body>
+</html>
