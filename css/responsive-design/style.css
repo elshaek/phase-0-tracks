@@ -1,6 +1,6 @@
 body {
 	max-width: 960px;
-	margin: auto;
+	margin: 0px auto;
 }
 
 #external-links {
@@ -10,7 +10,6 @@ body {
 	vertical-align: top;
 	background-color: beige;
 	padding: 0px 10px;
-	margin-right: 10px;
 	height: 600px;
 }
 
@@ -18,6 +17,7 @@ main {
 	display: inline-block;
 	max-width: 75%;
 	min-width: 300px;
+	margin: 10px;
 }
 
 ul > li {
@@ -57,27 +57,25 @@ figcaption {
   text-align: right;
 }
 
-/* Change font size of links if screen gets too narrow, making it easier to click on the links on mobile devices */
-@media screen and (max-width: 735px) {
-	
+@media screen and (max-width: 879px) {
 	h1 {
-		font-size: 1.5em;
+		font-size: 200%;
 	}
-
+	
 	#external-links {
 		display: block;
 		min-width: 300px;
 		max-width: 100%;
-		font-size: 1.2em;
+		font-size: 130%;
 		height: 100%;
 		text-align: center;
 	}
 
 	main {
 		display: block;
-		margin: 10px
 		min-width: 300px;
 		max-width: 100%;
+		margin: 10px;
 	}
 } 
 
