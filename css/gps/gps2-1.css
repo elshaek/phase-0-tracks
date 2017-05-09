@@ -1,3 +1,67 @@
 body {
-	background-color: beige;
+	font-family: "Calibri", sans-serif;
+	margin: 0px;
+}
+
+header {
+	background-color: #cedbd8;
+	margin-top: -22px;
+	margin-bottom: -20px
+}
+
+h1 {
+	font-family: "Courier", sans-serif;
+	font-size: 250%;
+	text-shadow: 3px 3px 3px black;
+	background-color: #378979;
+	background-image: url("octocat.png");
+	background-size: contain;
+	margin-top: 0px;
+	padding: 50px 50px 30px;
+	color: white;
+}
+
+header > p {
+	padding: 0px 50px 15px;
+}
+
+.column-1 {
+	display: inline-block;
+	width: 45%;
+	margin-left: 50px;
+}
+
+.column-2 {
+	display: inline-block;
+	width: 45%;
+	vertical-align: top;
+	margin-left: 30px;
+}
+
+article > h2 {
+	margin: 50px 0px 0px;
+}
+
+article > p {
+	margin: 4px 0px 10px;
+	//margin-top: 4px;
+}
+
+details > summary {
+	background-color: #ede8e8;
+	padding: 8px 5px 5px;
+}
+
+details > p {
+	background-color: #f7f7f7;
+	font-size: 80%;
+	margin: 0px;
+	padding: 8px 20px 8px;
+	border-bottom: 1px solid lightgrey;
+}
+
+footer {
+	background-color: #cedbd8;
+	margin-top: 30px;
+	padding: 15px;
 }
