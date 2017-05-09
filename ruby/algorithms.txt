@@ -1,0 +1,41 @@
+Elsha E. Kwee
+4.2: Algorithms
+
+__ALGORITHM FOR USING AN ELEVATOR__
+
+(Assumptions: 
+A. Each floor already has an assigned value equivalent to its floor number, e.g. B1 = -1; 3rd floor = 3
+B. There is only 1 column of buttons in the elevator, with the lowest floor at the bottom, and highest floor at the top)
+
+1. Find out which floor we want to go to (“destination floor”)
+2. Make sure the “destination floor” exists, if not, keep requesting until valid floor number is given
+2. Start at the the most bottom button for the lowest floor in the building (“current floor button”)
+3. Repeat the steps below until “current floor button” is equal to “destination floor”:
+    - Move up 1 button
+    - Add 1 to current floor value and update 
+4. Once “current floor button” is equal to “destination floor”, press the button 
+ 
+
+
+
+__ALGORITHM FOR BUYING GROCERIES ON A BUDGET__
+
+(The goal is to buy as many items as possible, and as close to the budget as possible)
+
+1. Set budget (“budget”)
+2. Figure out number of items to buy
+3. Find out the price of each item
+4. Arrange list from cheapest to most expensive
+5. Add all the item prices (“total price”)
+6. Until “total price” is less than or equal to “budget”, repeat the steps below:
+    - Find out how much the total price exceeded the budget (“overrun”)
+    - Starting from the cheapest item, repeat the below process:
+	- If the item price is equal to or greater than the “overrun”
+	    - Remove item and update list of items
+	    - Update total price
+	    - Stop checking for the rest of the items and checkout
+	- Otherwise check on the next item
+    - If none of the items were removed
+	- Remove the most expensive item and update list of items
+	- Update total price and repeat 6.
+7. If “total price” is less than or equal to “budget”, go to cashier and buy all items on the list
