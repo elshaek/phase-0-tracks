@@ -3,12 +3,10 @@ Elsha E. Kwee
 
 __ALGORITHM FOR USING AN ELEVATOR__
 
-(Assumptions: 
-A. Each floor already has an assigned value equivalent to its floor number, e.g. B1 = -1; 3rd floor = 3
-B. There is only 1 column of buttons in the elevator, with the lowest floor at the bottom, and highest floor at the top)
+(Assumption: There is only 1 column of buttons in the elevator, with the lowest floor at the bottom, and highest floor at the top)
 
 1. Find out which floor we want to go to (“destination floor”)
-2. Make sure the “destination floor” exists, if not, keep requesting until valid floor number is given
+2. Make sure the “destination floor” is valid, if not, keep requesting until valid floor number is given
 2. Start at the the most bottom button for the lowest floor in the building (“current floor button”)
 3. Repeat the steps below until “current floor button” is equal to “destination floor”:
     - Move up 1 button
