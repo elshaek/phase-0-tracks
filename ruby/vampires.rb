@@ -62,27 +62,18 @@ for i in (1..num_of_emp)
 	end
 
 
-	# evaluate if vampire or not based on answers
+	# evaluate if employee is a vampire or not based on answers
 
 	if correct_age && (can_eat_garlic || will_get_insurance)
 		vampire = "Probably not a vampire."
-	elsif !correct_age 
-		if !can_eat_garlic && !will_get_insurance
-			vampire = "Almost certainly a vampire."
-		elsif !can_eat_garlic || !will_get_insurance
-			vampire = "Probably a vampire."
-		end
+	elsif !correct_age && (!can_eat_garlic || !will_get_insurance)
+		vampire = "Probably a vampire."
 	else
 		vampire = "Results inconclusive."
 	end 
-
-	# employee name takes precedence over other criteria
-	if fullname == "Drake Cula" || fullname == "Tu Fang"
-		vampire = "Definitely a vampire."
-	end
+	
 
 	# keep asking employee for allergies until they're done, or until they type sunshine
-	# sunshine allergy takes precedence over employee name
 	allergy = ""
 	until allergy == "done" || allergy == "sunshine"
 		puts "Do you have any allergies? (Please type 'done' when you have finished)"
@@ -92,6 +83,15 @@ for i in (1..num_of_emp)
 		elsif allergy == "done"
 			break
 		end
+	end
+
+	if !correct_age && !can_eat_garlic && !will_get_insurance
+		vampire = "Almost certainly a vampire."
+	end
+
+	# employee name takes precedence over other criteria
+	if fullname == "Drake Cula" || fullname == "Tu Fang"
+		vampire = "Definitely a vampire."
 	end
 
 	puts vampire
