@@ -1,108 +1,105 @@
 # ENCRYPT
+# loop through every letter in the argument string by using index
+# if character is a space no change should be made
+# for each iteration use .next! to move forward one letter and permanently change it
 
-# Loop through every letter using index
-# for each iteration use .next (use bang operator OR store in new variable)
-# to move letter one forward
-# IF character is a space no change should be made
 
 # DECRYPT
+# store alphabets a to z as a variable
+# loop through every letter in the argument string by using index
+# find its position in the alphabets variable
+# go to the previous letter in the alphabets variable
+# replace the original letter with the new letter
 
-# store alphabet as a variable
-# loop through every letter to find it's position in alphabet
-# then -1 on the index on the decryption to get the original word
+def encrypt(password)
+	i = 0
+
+	while i < password.length
+		# if letter is z then replace with a
+		if password[i] == "z"
+			password[i] = "a"
+		# dont do anything to spaces
+		elsif password[i] == " "
+			password[i] = " "
+		else
+			password[i] = password[i].next!	
+		end
+		i += 1
+	end		
+
+	p password	# using p will give output with quotes and an implicit return with intended object
+				# we can alternatively use puts password and return password, to give output without quotes and an explicit return with intended object
+end
+
+
+def decrypt(password)
+	alphabet = "abcdefghijklmnopqrstuvwxyz"
+	i = 0
+
+	while i < password.length
+		
+		# if letter is a then replace with z
+		if password[i] == "a"
+		  password[i] = "z"
+		elsif password[i] == " "
+			password[i] = " "
+		else
+			# compare the letter from the argument to the alphabet string
+			# find the position of that letter in alphabet variable
+			# and then go back one position 
+			index_num = alphabet.index(password[i]) - 1		#index_num is the position of the new letter in the alphabet variable
+			# replacing the original letter with the new one
+			password[i] = alphabet[index_num]
+		end
+		i += 1
+	end		
+
+	p password	# using p will give output with quotes and an implicit return with intended object
+				# we can alternatively use puts password and return password, to give output without quotes and an explicit return with intended object
+end
 
 
 # INTERFACE
-
-# Puts question
-# IF ELSE for encrypt/decrypt
-# puts password store in variable
-# runs method on password and prints
-
-
-def encrypt(word)
-	index = 0
-
-		while index < word.length
-			
-			# if letter is z replace with a
-			if word[index] == "z"
-				word[index] = "a"
-			# dont do anything to spaces
-			elsif word[index] == " "
-				word[index] = " "
-
-			else
-				word[index] = word[index].next!	
-			end
-
-			index += 1
-
-		end		
-
-	p word
-end
-
-#encrypt("hel lo")
-
-#encrypt("zed")
-
-#encrypt("abc")
-
-def decrypt(word)
-	alphabet = "abcdefghijklmnopqrstuvwxyz"
-
-	i = 0
-
-		while i< word.length
-			
-			# the opposite - if a replace with z
-			if word[i] == "a"
-			  word[i] = "z"
-			elsif word[i] == " "
-				word[i] = " "
-			else
-				# compare the letter to the alphabet to find it's position 
-				# and then go back one. 
-				index_num = alphabet.index(word[i]) - 1
-				# replacing the original letter with the new one
-				word[i] = alphabet[index_num]
-			end
-
-			i += 1
-
-		end		
-
-	p word
-end
+# ask user if encrypt/decrypt and ask for password
+# call on the respective method with the given password as method argument
+# print the encrypted/decrypted password
 
 puts "Would you like to encrypt or decrypt?"
 user_input = gets.chomp
-
-puts "what's your password?"
-word = gets.chomp
-
-if user_input == "encrypt"
-	encrypt(word)
-elsif user_input == "decrypt"
-	decrypt(word)
-else
-	puts "sorry, I don't understand" 
+# repeat question until user gives a valid answer of encrypt or decrypt
+until user_input == "encrypt" || user_input == "decrypt"
+	puts "Sorry, I don't understand. Would you like to encrypt or decrypt?" 
+	user_input = gets.chomp
 end
 
-#decrypt("ifm mp")
+puts "what's your password?"
+password = gets.chomp
 
-#decrypt("afe")
+if user_input == "encrypt"
+	encrypt(password)
+elsif user_input == "decrypt"
+	decrypt(password)
+else
+	
+end
 
-#decrypt("bcd")
 
-#decrypt(encrypt("swordfish")) 
+# encrypt("hel lo")
+# encrypt("zed")
+# encrypt("abc")
 
-# ^ This works because it's calling decrypt on the encrypted swordfish. 
-# First it starts the decryption and when looking for the argument it realizes
-# it needs to get the encrypted value of swordfish , then takes the encrypted 
-# value and decrypts it returning "swordfish". Because the encrypt method has 
-# print statement in it it also returns the encrypted version. 
+# decrypt("ifm mp")
+# decrypt("afe")
+# decrypt("bcd")
+
+# decrypt(encrypt("swordfish")) 
+
+# ^ this nested method call works by:
+# first running the innermost method, in this case encrypt
+# the result from the innermost method is then replaced by the return value
+# the outermost method, in this case decrypt, will then use the returned value as an argument
+# and finally run the method to give the final result
+
 
 
 
