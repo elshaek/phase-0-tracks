@@ -5,13 +5,11 @@
 # committed the crime, add additional calls to prove it.
 
 p "iNvEsTiGaTiOn".replace("InVeStIgAtIoN")
+p "iNvEsTiGaTiOn".swapcase
 # => “InVeStIgAtIoN”
-
-
 
 p "zom".insert(2, "o")
 # => “zoom”
-
 
 p "enhance".center(15)
 p "enhance".ljust(11).rjust(15)
@@ -23,16 +21,17 @@ p "Stop! You’re under arrest!".upcase
 p "the usual".concat(" suspects")
 #=> "the usual suspects"
 
-# " suspects".<???>
+p " suspects".prepend("the usual")
 # => "the usual suspects"
 
 p "The case of the disappearing last letter".chop
 # => "The case of the disappearing last lette"
 
-# "The mystery of the missing first letter".<???>
+p "The mystery of the missing first letter".delete("T")
 # => "he mystery of the missing first letter"
 
-# "Elementary,    my   dear        Watson!".<???>
+p "Elementary,    my   dear        Watson!".squeeze
+p "Elementary,    my   dear        Watson!".squeeze(" ")
 # => "Elementary, my dear Watson!"
 
 p "z".ord
