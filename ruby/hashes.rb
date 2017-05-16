@@ -21,26 +21,38 @@ client[:num_of_children] = gets.chomp.to_i
 puts "Decor Theme:"
 client[:decor_theme] = gets.chomp
 
+puts "Need Childproofing: (y/n)"
+client[:childproof] = gets.chomp
+
+if client[:childproof] == "y"
+	client[:childproof] = true
+elsif client[:childproof] == "n"
+	client[:childproof] = false
+end
+
 puts "Thank you. The information you've entered are as follows: 
 Name: #{client[:fullname]}
 Age: #{client[:age]}
 Number of Children: #{client[:num_of_children]}
-Decor Theme Preference: #{client[:decor_theme]}"
+Decor Theme Preference: #{client[:decor_theme]}
+Childproof: #{client[:childproof]}"
 
 puts "Would you like to update any of the above information? (type 'none' if no update)"
-update_info = gets.chomp
+update_info = gets.chomp.downcase
 
-puts "Please enter new value:"
-update_val = gets.chomp
-
-if update_info == "age" || update_info == "num_of_children"
-	update_val.to_i
+if update_info == "none"
+	puts "No change in data. Exiting program."
+	exit
+else
+	puts "Please enter new value:"
+	update_val = gets.chomp
 end
 
 client[update_info.to_sym] = update_val
 
-puts "Your information has been updated as follows:
+puts "Your information has been updated to the following:
 Name: #{client[:fullname]}
 Age: #{client[:age]}
 Number of Children: #{client[:num_of_children]}
-Decor Theme Preference: #{client[:decor_theme]}"
+Decor Theme Preference: #{client[:decor_theme]}
+Childproof: #{client[:childproof]}"
