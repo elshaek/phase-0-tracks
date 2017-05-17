@@ -3,7 +3,13 @@
 # BUSINESS LOGIC
 # take user input and swap first and last name
 # change all the vowels to the next vowel in 'aeiou'
+		# store vowels in an array
+		# compare each character in the name to the array
+		# if character is a vowel, change it to the next vowel
 # change all the consonants to the next consonant in the alphabet
+		# store consonants in a string
+		# compare each character in the name to the string
+		# if character is a consonant, change it to the next consonant
 # edge case: 'z' will become 'b'
 
 # method to sawp first and last name
