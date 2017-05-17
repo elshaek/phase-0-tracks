@@ -6,11 +6,12 @@
 		# store vowels in an array
 		# compare each character in the name to the array
 		# if character is a vowel, change it to the next vowel
+		# edge case: 'u' will become 'a'
 # change all the consonants to the next consonant in the alphabet
 		# store consonants in a string
 		# compare each character in the name to the string
 		# if character is a consonant, change it to the next consonant
-# edge case: 'z' will become 'b'
+		# edge case: 'z' will become 'b'
 
 # method to sawp first and last name
 def nameswap(fullname) 
@@ -25,7 +26,13 @@ def next_vowel(fullname)
 	name_array.map! do |char|
 		if vowels.include?(char)
 			char_index = vowels.index(char)	# find position of the character in the vowels array
-			char = vowels[char_index + 1]
+
+			# 'u' will become 'a'
+			if char == "u"
+				char = "a"
+			else 
+				char = vowels[char_index + 1]
+			end
 		end
 		char
 	end
@@ -69,7 +76,7 @@ user_input = ""
 name_list = {}
 
 until user_input.downcase == "quit"
-	puts "Input name:"
+	puts "Input name: (or type 'quit' to exit program)"
 	user_input = gets.chomp
 	if user_input.downcase == "quit"
 		name_list.each {|user_alias, user_input| puts "#{user_alias} is actually #{user_input}."} # print all data stored in the name_list hash
