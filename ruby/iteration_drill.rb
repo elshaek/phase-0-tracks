@@ -84,8 +84,7 @@ p reduced_supplies
 other_survivor_supplies = [ "warm clothes", "rations", "compass", "camp stove",
                             "solar battery", "flashlight"]
 # ----
-combined_supplies = (zombie_apocalypse_supplies + other_survivor_supplies).uniq
-p combined_supplies
+p zombie_apocalypse_supplies.concat(other_survivor_supplies).uniq
 
 
 
@@ -157,7 +156,7 @@ extinct_or_not.each do |input|
 end
 
 
-# 5. We just found out that the Passenger Pigeon is actually not extinct!
+# 5. We just found out that the "Passenger Pigeon" is actually not extinct!
 # Remove them from extinct_animals and return the key value pair as a two item array.
 # Find the built-in method that helps you accomplish this in the Ruby documentation
 # for Hashes.
