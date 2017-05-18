@@ -6,15 +6,52 @@ zombie_apocalypse_supplies = ["hatchet", "rations", "water jug", "binoculars",
 # 1. Iterate through the zombie_apocalypse_supplies array,
 # printing each item in the array separated by an asterisk
 # ----
+zombie_apocalypse_supplies.each {|item| print item, "*"}
+puts "\n"
+
 
 # 2. In order to keep yourself organized, sort your zombie_apocalypse_supplies
 # in alphabetical order. Do not use any special built-in methods.
 # ----
+in_order = true
+
+while in_order == true
+	in_order = false
+
+	(zombie_apocalypse_supplies.length-1).times do |item|
+		if zombie_apocalypse_supplies[item][0].downcase > zombie_apocalypse_supplies[item+1][0].downcase
+			zombie_apocalypse_supplies[item], zombie_apocalypse_supplies[item+1] = zombie_apocalypse_supplies[item+1], zombie_apocalypse_supplies[item]
+			in_order = true
+
+		# if more than 1 item starts with the same letter, compare the second letter in the word
+		elsif zombie_apocalypse_supplies[item][0].downcase == zombie_apocalypse_supplies[item+1][0].downcase
+			if zombie_apocalypse_supplies[item][1].downcase > zombie_apocalypse_supplies[item+1][1].downcase
+				zombie_apocalypse_supplies[item], zombie_apocalypse_supplies[item+1] = zombie_apocalypse_supplies[item+1], zombie_apocalypse_supplies[item]
+				in_order = true
+			end
+		end
+	end	
+end
+
+p zombie_apocalypse_supplies
 
 # 3. Create a method to see if a particular item (string) is in the
 # zombie_apocalypse_supplies. Do not use any special built-in methods.
 # For instance: are boots in your list of supplies?
 # ----
+def in_supply?(supplies_arr, item)
+	available = false
+	
+	supplies_arr.each do |supply|
+		if supply == item
+			available = true
+		end
+	end
+	available
+end
+
+puts in_supply?(zombie_apocalypse_supplies, "rations")
+
 
 # 4. You can't carry too many things, you've only got room in your pack for 5.
 # Remove items in your zombie_apocalypse_supplies in any way you'd like,
