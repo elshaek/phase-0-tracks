@@ -161,3 +161,6 @@ end
 # Find the built-in method that helps you accomplish this in the Ruby documentation
 # for Hashes.
 # ----
+to_delete = extinct_animals.assoc("Passenger Pigeon")
+extinct_animals.delete("Passenger Pigeon")
+p to_delete
