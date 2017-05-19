@@ -6,6 +6,7 @@ zombie_apocalypse_supplies = ["hatchet", "rations", "water jug", "binoculars",
 # 1. Iterate through the zombie_apocalypse_supplies array,
 # printing each item in the array separated by an asterisk
 # ----
+puts "Array Drill 1"
 zombie_apocalypse_supplies.each do |item| 
 	if item == zombie_apocalypse_supplies[-1]
 		print item 		# last element will not print asterisk
@@ -19,6 +20,7 @@ puts "\n"
 # 2. In order to keep yourself organized, sort your zombie_apocalypse_supplies
 # in alphabetical order. Do not use any special built-in methods.
 # ----
+puts "\nArray Drill 2"
 in_order = true
 
 while in_order == true
@@ -28,16 +30,9 @@ while in_order == true
 	# repeat process until all are in order
 	# compare letters in the same case form (downcase or uppercase)
 	(zombie_apocalypse_supplies.length-1).times do |item|
-		if zombie_apocalypse_supplies[item][0].downcase > zombie_apocalypse_supplies[item+1][0].downcase
+		if zombie_apocalypse_supplies[item].downcase > zombie_apocalypse_supplies[item+1].downcase
 			zombie_apocalypse_supplies[item], zombie_apocalypse_supplies[item+1] = zombie_apocalypse_supplies[item+1], zombie_apocalypse_supplies[item]
 			in_order = true
-
-		# if more than 1 item starts with the same letter, compare the second letter in the word
-		elsif zombie_apocalypse_supplies[item][0].downcase == zombie_apocalypse_supplies[item+1][0].downcase
-			if zombie_apocalypse_supplies[item][1].downcase > zombie_apocalypse_supplies[item+1][1].downcase
-				zombie_apocalypse_supplies[item], zombie_apocalypse_supplies[item+1] = zombie_apocalypse_supplies[item+1], zombie_apocalypse_supplies[item]
-				in_order = true
-			end
 		end
 	end	
 end
@@ -49,6 +44,7 @@ p zombie_apocalypse_supplies
 # zombie_apocalypse_supplies. Do not use any special built-in methods.
 # For instance: are boots in your list of supplies?
 # ----
+puts "\nArray Drill 3"
 def in_supply?(supplies_arr, item)
 	available = false
 	
@@ -57,7 +53,7 @@ def in_supply?(supplies_arr, item)
 			available = true
 		end
 	end
-	available
+	"This item is available: #{available}"
 end
 
 puts in_supply?(zombie_apocalypse_supplies, "rations")
@@ -67,9 +63,10 @@ puts in_supply?(zombie_apocalypse_supplies, "rations")
 # Remove items in your zombie_apocalypse_supplies in any way you'd like,
 # leaving only 5. Do not use any special built-in methods.
 # ----
+puts "\nArray Drill 4"
 reduced_supplies = []
 zombie_apocalypse_supplies.each do |item|
-	if reduced_supplies.length < 6
+	if reduced_supplies.length < 5
 		reduced_supplies << item
 	end
 end
@@ -84,6 +81,7 @@ p reduced_supplies
 other_survivor_supplies = [ "warm clothes", "rations", "compass", "camp stove",
                             "solar battery", "flashlight"]
 # ----
+puts "\nArray Drill 5"
 p zombie_apocalypse_supplies.concat(other_survivor_supplies).uniq
 
 
@@ -103,6 +101,7 @@ extinct_animals = {
 # 1. Iterate through extinct_animals hash, printing each key/value pair
 # with a dash in between the key and value, and an asterisk between each pair.
 # ----
+puts "\nHash Drill 1"
 extinct_animals.each do |animal, year|
 	if year == extinct_animals.flatten[-1]
 		print "#{animal} - #{year}" 		# last element will not print asterisk
@@ -115,6 +114,7 @@ puts "\n"
 # 2. Keep only animals in extinct_animals if they were extinct before
 # the year 2000. Do not use any special built-in methods.
 # ----
+puts "\nHash Drill 2"
 extinct_before_2000 = {}
 extinct_animals.each do |animal, year|
 	if year < 2000
@@ -130,6 +130,7 @@ p extinct_before_2000
 # so they accurately reflect what year the animal went extinct.
 # Do not use any special built-in methods.
 # ----
+puts "\nHash Drill 3"
 extinct_animals.each do |animal, year|
 	extinct_animals[animal] = year - 3
 end
@@ -144,7 +145,7 @@ p extinct_animals
 # "Saiga Antelope"
 # Do not use any special built-in methods.
 # ----
-
+puts "\nHash Drill 4"
 extinct_or_not = [ "Andean Cat", "Dodo", "Saiga Antelope"]
 
 extinct_or_not.each do |input|
@@ -161,6 +162,7 @@ end
 # Find the built-in method that helps you accomplish this in the Ruby documentation
 # for Hashes.
 # ----
+puts "\nHash Drill 5"
 to_delete = extinct_animals.assoc("Passenger Pigeon")
 extinct_animals.delete("Passenger Pigeon")
 p to_delete
