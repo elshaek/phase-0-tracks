@@ -83,7 +83,8 @@ other_survivor_supplies = [ "warm clothes", "rations", "compass", "camp stove",
 # ----
 puts "\nArray Drill 5"
 p zombie_apocalypse_supplies.concat(other_survivor_supplies).uniq
-
+# alternatively
+# p zombie_apocalypse_supplies | other_survivor_supplies
 
 
 # Hash Drills
