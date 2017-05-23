@@ -1,7 +1,5 @@
 # GPS 2.2 - Electronic Grocery List
 
-# RELEASE 0
-
 # Method to create a list
 # input: string of items separated by spaces (example: "carrots apples cereal pizza")
 # steps: 
@@ -91,3 +89,28 @@ remove_item(new_list, "lemonade")
 update_quantity(new_list, "ice cream", 1)
 
 print_list(new_list)
+
+=begin
+RELEASE 4: REFLECT
+
+- What did you learn about pseudocode from working on this challenge?
+Pseudocode helps in sorting out any kinks/confusion in the steps, so that the actual coding can go smoother.
+
+- What are the tradeoffs of using arrays and hashes for this challenge?
+Using hashes is probably more appropriate in this challenge, since the quantity is dependent on the item, 
+making it easier to work with the key-value pairing. Using array would mean referring to 2 different elements
+when trying to make changes (eg. add or remove item).
+
+- What does a method return?
+A method returns the result of the last line in the method, or nil if nothing was returned (e.g. puts does not return anything)
+
+- What kind of things can you pass into methods as arguments?
+Different datatypes. In this case, a hash, string, integer.
+
+- How can you pass information between methods?
+By storing the result from the first method in a variable and using the same variable in the next arguments.
+
+- What concepts were solidified in this challenge, and what concepts are still confusing?
+Solidified: Implicit return and side effects in Ruby.
+
+=end
