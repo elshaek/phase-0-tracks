@@ -72,10 +72,25 @@ update_quantity(example_list, "pizza", 3)
 
 def print_list(list)
 	list.each do |item, quantity|
-		puts "#{item}: #{quantity}"
+		puts "#{item.capitalize}: #{quantity}"
 	end
 end
 
 print_list(example_list)
+
+
+new_list = create_list("")
+
+add_item(new_list, "lemonade", 2)
+add_item(new_list, "tomatoes", 3)
+add_item(new_list, "onions", 1)
+add_item(new_list, "ice cream", 4)
+
+remove_item(new_list, "lemonade")
+
+update_quantity(new_list, "ice cream", 1)
+
+print_list(new_list)
+
 
 
