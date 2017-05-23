@@ -10,7 +10,7 @@
 	# print the list to the console [can you use one of your other methods here?]
 # output: hash
 
-def create_list(list)
+def create_list(grocerylist)
 	grocerylist_arr = grocerylist.split
 	list = Hash.new
 	grocerylist_arr.each do |item|
