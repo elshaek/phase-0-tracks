@@ -31,10 +31,10 @@ example_list = create_list("carrots apples cereal pizza")
 
 def add_item(list, item, quantity=0)
 	list[item] = quantity
-	p list
+	list
 end
 
-add_item(example_list, "pear")
+p add_item(example_list, "pear")
 
 # Method to remove an item from the list
 # input: list, item name
@@ -44,10 +44,10 @@ add_item(example_list, "pear")
 
 def remove_item(list, item)
 	list.delete(item)
-	p list
+	list
 end
 
-remove_item(example_list, "pear")
+p remove_item(example_list, "pear")
 
 # Method to update the quantity of an item
 # input: list, item name, quantity
@@ -57,10 +57,10 @@ remove_item(example_list, "pear")
 
 def update_quantity(list, item, quantity)
 	list[item] = quantity
-	p list
+	list
 end
 
-update_quantity(example_list, "pizza", 3)
+p update_quantity(example_list, "pizza", 3)
 
 # Method to print a list and make it look pretty
 # input: list hash
@@ -91,6 +91,3 @@ remove_item(new_list, "lemonade")
 update_quantity(new_list, "ice cream", 1)
 
 print_list(new_list)
-
-
-
