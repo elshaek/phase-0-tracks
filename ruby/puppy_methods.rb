@@ -36,8 +36,8 @@ puts "\n"
 
 
 class DBC_student
-	def initialize
-		puts "Creating a new DBC student..."
+	def initialize(name)
+		puts "Creating a new DBC student: #{name}"
 	end
 
 	def study(hours)
@@ -54,11 +54,8 @@ puts "Create 50 new instances of DBC_students and call methods on each of them:"
 array_of_DBC_students = Array.new
 
 50.times do |x| 
-	array_of_DBC_students << DBC_student.new
+	array_of_DBC_students << DBC_student.new("Student #{x+1}")
 end
-
-puts "Number of students: #{array_of_DBC_students.length}."
-puts "\n"
 
 array_of_DBC_students.each do |student|
 	student.study(25)
