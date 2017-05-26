@@ -10,17 +10,19 @@
 
 class GuessingGame
 	attr_accessor :word
-	attr_reader :guess_limit, :blanks
+	attr_reader :guess_limit, :blanks, :previous_guesses
 
 	def initialize(guess_word)
 		@word = guess_word
 		@word_array = @word.chars
 		@guess_limit = @word.length
 		@blanks = "_" * @word.length
+		@previous_guesses = []
 	end
 
 	def check_char(char)
 		if @word_array.include?(char)
+			@previous_guesses << char
 			@word_array.length.times do |x|
 				if @word_array[x] == char
 					@blanks[x] = char
@@ -31,7 +33,6 @@ class GuessingGame
 			false
 		end
 	end
-
 end
 
 # USER INTERFACE
@@ -45,21 +46,20 @@ puts "This is a 2-player game."
 puts "Player 1 - Please type a word for Player 2 to guess:"
 word = gets.chomp.downcase
 game = GuessingGame.new(word)
+system("clear")		# clears the page after Player 1 types the word
 
 
 puts "Player 2 - you have a maximum of #{game.guess_limit} guesses."
 guesses_left = game.guess_limit
-previous_guesses = Array.new
 
 while guesses_left > 0
 	puts "Make a guess (1 character at a time): #{game.blanks}"
-	guess_char = gets.chomp
+	user_input = gets.chomp
 
-	if !previous_guesses.include?(guess_char)
+	if !game.previous_guesses.include?(user_input)
 		guesses_left -= 1
-		previous_guesses << guess_char
 
-		if game.check_char(guess_char)
+		if game.check_char(user_input)
 			if game.blanks.include?("_")
 				puts "Good guess! #{game.blanks}"
 				if guesses_left == 0
