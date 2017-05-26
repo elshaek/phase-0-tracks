@@ -5,21 +5,20 @@
 # number of guesses limited to the length of the word provided
 # repeated guesses of the same character count only as 1 guess
 # if user guesses the right word, give feedback by updating the blanks with the guessed character filled in
-# congratulate player if they win, and taunt if s/he loses
 
 class GuessingGame
 	attr_accessor :word
-	attr_reader :guess_limit, :player2_guesses, :previous_guesses
+	attr_reader :guesses_left, :player2_guesses, :previous_guesses
 
 	def initialize(guess_word)
 		@word = guess_word
 		@word_array = @word.chars
-		@guess_limit = @word.length
+		@guesses_left = @word.length
 		@player2_guesses = "_" * @word.length
 		@previous_guesses = []
 	end
 
-	def check_char(char)
+	def correct_guess?(char)
 		@previous_guesses << char
 		if @word_array.include?(char)
 			@word_array.length.times do |x|
@@ -32,14 +31,32 @@ class GuessingGame
 			false
 		end
 	end
+
+	def duplicate_guess(user_input)
+		if @previous_guesses.include?(user_input)
+			true
+		else
+			@guesses_left -= 1
+			false
+		end
+	end
+
+	def win
+		if @player2_guesses.include?("_")
+			false
+		else
+			true
+		end
+	end
 end
 
 # USER INTERFACE
 # ask player 1 to provide a word
 # then ask player 2 to start guess
 # keep asking until there are no more blanks, or until max number of guesses is reached
+# give feedback to player after every guess and show how many blanks are left
+# if guess is a duplicate, it does not count against the player
 # congratulate player if they win, and taunt if s/he loses
-
 
 puts "This is a 2-player game."
 puts "Player 1 - Please type a word for Player 2 to guess:"
@@ -48,23 +65,20 @@ game = GuessingGame.new(word)
 system("clear")		# clears the page after Player 1 types the word
 
 
-puts "Player 2 - you have a maximum of #{game.guess_limit} guesses."
-guesses_left = game.guess_limit
+puts "Player 2 - you have a maximum of #{game.guesses_left} guesses."
 
-while guesses_left > 0
+while game.guesses_left > 0
 	puts "Make a guess (1 character at a time): #{game.player2_guesses}"
 	user_input = gets.chomp
 	
-	if !game.previous_guesses.include?(user_input)
-		guesses_left -= 1
-
-		if game.check_char(user_input)
-			if game.player2_guesses.include?("_")
+	if !game.duplicate_guess(user_input)
+		if game.correct_guess?(user_input)
+			if !game.win
 				puts "Good guess! #{game.player2_guesses}"
-				if guesses_left == 0
+				if game.guesses_left == 0
 					puts "TOO BAD! You have no more guesses left. The correct word is '#{game.word}'."
 				else
-					puts "You have #{guesses_left} guesses left."
+					puts "You have #{game.guesses_left} guesses left."
 				end
 			else
 				puts "Great guess! Word: #{game.player2_guesses}"
@@ -72,13 +86,13 @@ while guesses_left > 0
 				exit
 			end
 		else
-			if guesses_left > 0
-				puts "Try again. You have #{guesses_left} guesses left."
+			if game.guesses_left > 0
+				puts "Try again. You have #{game.guesses_left} guesses left."
 			else
 				puts "TOO BAD! You have no more guesses left. The correct word is '#{game.word}'."
 			end
 		end
 	else
-		puts "You've previously made that guess, and still have #{guesses_left} guesses left."
+		puts "You've previously made that guess, and still have #{game.guesses_left} guesses left."
 	end
 end
