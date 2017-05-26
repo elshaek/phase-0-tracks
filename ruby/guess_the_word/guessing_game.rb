@@ -1,4 +1,4 @@
-# PESUDOCODE
+# PSEUDOCODE
 # create 2-player game
 # 1 user will come up with a word, and another user will guess
 	# provided word can be read to update current guesses, and inform players at the end of the game
