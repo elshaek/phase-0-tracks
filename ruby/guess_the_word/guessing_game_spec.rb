@@ -7,15 +7,14 @@ describe GuessingGame do
     expect(game.guess_limit).to eq 34
   end
 	
-	it "updates the blanks if given the right character" do
-		#game.check_char('l')
-		#game.check_char('i')
+	it "checks if the given word includes the character" do
 		expect(game.check_char('a')).to eq true
 	end
 
-	# it "gives the current guess count" do
-	# 	game.check_char('q')
-	# 	game.check_char('e')
-  #   expect(game.guess_count).to eq 2
-  # end
+	it "updates the blanks if the guessed character exists" do
+		game.check_char('a')
+		game.check_char('i')
+		game.check_char('u')
+		expect(game.blanks).to eq "_u____a_i__a_i_i__i____ia_i___i_u_"
+	end
 end
