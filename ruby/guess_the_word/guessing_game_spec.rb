@@ -15,7 +15,7 @@ describe GuessingGame do
 		game.check_char('a')
 		game.check_char('i')
 		game.check_char('u')
-		expect(game.blanks).to eq "_u____a_i__a_i_i__i____ia_i___i_u_"
+		expect(game.player2_guesses).to eq "_u____a_i__a_i_i__i____ia_i___i_u_"
 	end
 
 	it "gives an array of the previous guesses" do
