@@ -21,7 +21,7 @@ describe GuessingGame do
 	it "gives an array of the previous guesses" do
 		game.check_char('a')
 		game.check_char('i')
-		game.check_char('u')
-		expect(game.previous_guesses).to eq ["a", "i", "u"]
+		game.check_char('q')
+		expect(game.previous_guesses).to eq ["a", "i", "q"]
 	end
 end

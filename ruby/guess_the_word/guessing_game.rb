@@ -20,8 +20,8 @@ class GuessingGame
 	end
 
 	def check_char(char)
+		@previous_guesses << char
 		if @word_array.include?(char)
-			@previous_guesses << char
 			@word_array.length.times do |x|
 				if @word_array[x] == char
 					@player2_guesses[x] = char
@@ -54,7 +54,7 @@ guesses_left = game.guess_limit
 while guesses_left > 0
 	puts "Make a guess (1 character at a time): #{game.player2_guesses}"
 	user_input = gets.chomp
-
+	
 	if !game.previous_guesses.include?(user_input)
 		guesses_left -= 1
 
