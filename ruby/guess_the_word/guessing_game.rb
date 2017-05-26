@@ -68,6 +68,7 @@ while guesses_left > 0
 					puts "You have #{guesses_left} guesses left."
 				end
 			else
+				puts "Word: #{game.blanks}"
 				puts "Congratulations! You guessed the word!"
 				exit
 			end
