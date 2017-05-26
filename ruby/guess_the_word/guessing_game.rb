@@ -51,5 +51,8 @@ class GuessingGame
 	end
 end
 
-#game = GuessingGame.new("hello")
-#p game.check_char('l')
+game = GuessingGame.new("supercalifragilisticexpialidocious")
+p game.check_char('a')
+p game.check_char('l')
+p game.check_char('i')
+

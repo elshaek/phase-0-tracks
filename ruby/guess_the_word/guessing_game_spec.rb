@@ -1,14 +1,16 @@
 require_relative 'guessing_game'
 
 describe GuessingGame do
-	let(:game) { GuessingGame.new("hello") }
+	let(:game) { GuessingGame.new("supercalifragilisticexpialidocious") }
 
   it "tells player 2 the max number of guesses s/he has" do
-    expect(game.guess_limit).to eq 5
+    expect(game.guess_limit).to eq 34
   end
 	
 	it "updates the blanks if given the right character" do
-		expect(game.check_char('l')).to eq "__ll_"
+		game.check_char('l')
+		game.check_char('i')
+		expect(game.check_char('a')).to eq "______ali__a_ili__i____iali___i___"
 	end
 
 	it "gives the current guess count" do
