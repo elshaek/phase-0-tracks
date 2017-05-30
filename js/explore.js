@@ -13,4 +13,12 @@ function reverse(str){
 	return reversedStr
 }
 
-console.log(reverse("hello"));
+var testPhrase1 = reverse("hello");
+var testPhrase2 = reverse("hello world");
+
+// driver code that prints the variable if some condition is true
+if (5 * 3 == 15){
+	console.log(testPhrase1);
+}
+
+console.log(testPhrase2);
