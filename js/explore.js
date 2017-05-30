@@ -10,7 +10,7 @@ function reverse(str){
 	for (i = str.length-1; i > -1; i--){
 		reversedStr += str[i];
 	}
-	return reversedStr
+	return reversedStr;
 }
 
 var testPhrase1 = reverse("hello");
