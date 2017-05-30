@@ -1,9 +1,9 @@
 # Virus Predictor
 
 # I worked on this challenge by myself (Guide: Celeen Rusk).
-# We spent [1.5] hours on this challenge.
+# and spent [1.5] hours on this challenge.
 
-# EXPLANATION OF require_relative
+# EXPLANATION OF require_relative:
 # loads a file that is located relative to the current file
 # whereas 'require' loads a file with an absolute path
 require_relative 'state_data'
@@ -120,3 +120,25 @@ end
 
 #=======================================================================
 # Reflection Section
+
+=begin
+- What are the differences between the two different hash syntaxes shown in the state_data file?
+1. Key datatype: String vs Symbol
+2. Use of =>
+3. Key-value pairs are on the same line for each state data to increase readability
+
+- What does require_relative do? How is it different from require?
+'require_relative' loads a file that is located relative to the current file, whereas 'require' loads a file with an absolute path
+
+- What are some ways to iterate through a hash?
+1. .each (and its variations: .each_key, .each_value)
+2. .times
+
+- When refactoring virus_effects, what stood out to you about the variables, if anything?
+It's important to note the SCOPE of variables to avoid repeating unnecessary code. If a variable is being repeated, and especially
+if used in a similar way, there's a good chance that it can be refactored.
+
+- What concept did you most solidify in this challenge?
+Solidified: Scope of instance variables; linking files; creating new instances of a class
+In progress: Keeping code DRY; finding the balance between writing DRY code and separating different functions into different methods
+=end
