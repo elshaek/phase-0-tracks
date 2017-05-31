@@ -57,7 +57,7 @@ function randomTestData(numberOfWords) {
 	var wordList = ["a", "bg", "ert", "ighf", "chjfn", "oghtds", "ufhggeg", "hgdkcdjk", "jydfbksjd", "yterdbfmjg"];
 
 	for (i = 0; i < numberOfWords; i++) {
-		var randomNumber = Math.floor((Math.random() * 10));
+		var randomNumber = Math.floor((Math.random() * 10)); // generate random number between 0-9 (inclusive)
 		wordArray.push(wordList[randomNumber]);
 	}
 	return wordArray;
