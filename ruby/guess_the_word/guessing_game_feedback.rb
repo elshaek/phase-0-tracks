@@ -6,13 +6,14 @@ outside each instance of a class. In the case of this guessing game, being able 
 are left for each player, what guesses have been made, and previous guesses are a great use of the 
 attr_reader helper method. But being able to read and write the secret word is a lot of power. A player 
 could easily ruin the game by reading what the secret word is, or overwrite the word entirely.
-- change move :word from attr_accessor to attr_reader
-- 
+- change :word from attr_accessor to attr_reader
 
 When we initialize a class, we set the state of each instance whenever the .new method is called. A 
 reasonable state for each game would be the secret word, the number of guesses remaining, perhaps a 
 boolean value relating to whether the game is active or not (automatically set to true), and a list 
 or previous guesses.
+- DELETE @word_array, @player2_guesses from initialize
+- ADD @game_over? 
 
 The readability of your code is being compromised by tab spacing. If you are using Sublime as your 
 text editor, you can set the tab spacing to 2 spaces per tab strike, and to set the editor to read 
@@ -47,92 +48,89 @@ logic that will run on its own.
 # if user guesses the right word, give feedback by updating the blanks with the guessed character filled in
 
 
+
 class GuessingGame
-	attr_reader :word, :guesses_left, :player2_guesses, :previous_guesses
+  attr_reader :secret_word, :guesses_left, :previous_guesses, :blanks, :is_over
 
-	def initialize(guess_word)
-		@word = guess_word
-		@word_array = @word.chars
-		@guesses_left = @word.length
-		@player2_guesses = "_" * @word.length
-		@previous_guesses = []
-	end
+  def initialize(secret_word)
+    @secret_word = secret_word
+    @guesses_left = @secret_word.length
+    @previous_guesses = []
+    @blanks = "_" * @secret_word.length
+    @is_over = false
+  end
 
-	def correct_guess?(char)
-		@previous_guesses << char
-		if @word_array.include?(char)
-			@word_array.length.times do |x|
-				if @word_array[x] == char
-					@player2_guesses[x] = char
-				end
-			end
-			true
-		else
-			false
-		end
-	end
+  # check if character had been guessed before
+  # IF yes, number of guesses left does not change, and let user know
+  # IF not, add character to list of previous guesses, and decrease guesses left by 1
+  def char_previously_guessed?(char)
+    if @previous_guesses.include?(char)
+      puts "You've previously made that guess."
+      true
+    else
+      @guesses_left -= 1
+      @previous_guesses << char
+      false
+    end
+  end
 
-	def duplicate_guess(user_input)
-		if @previous_guesses.include?(user_input)
-			true
-		else
-			@guesses_left -= 1
-			false
-		end
-	end
+  # check if the character guessed is included in the secret word
+  # IF yes, update the blanks with the character
+  # IF not, ask player to try again
+  def check_guess(char)
+    @secret_word_array = @secret_word.chars
 
-	def win
-		if @player2_guesses.include?("_")
-			false
-		else
-			true
-		end
-	end
+    if @secret_word_array.include?(char)
+      @secret_word_array.each_index do |index|
+        if @secret_word_array[index] == char
+          @blanks[index] = char
+        end
+      end
+      puts "Good guess!"
+    elsif !@secret_word_array.include?(char) && @guesses_left > 0
+      puts "Try again."
+    end
+  end
+
+  # check if the user had guessed the word
+  # IF there are are no more guesses left and there are still blanks, taunt player
+  # IF word was guessed, congratulate player
+  def result
+    if @blanks == @secret_word
+      puts "CONGRATULATIONS! You guessed the word!"
+      puts "Word: #{@secret_word}"
+      @is_over = true
+    elsif @blanks != @secret_word && @guesses_left == 0
+      puts "TOO BAD! You have no more guesses left. The correct word is '#{@secret_word}'."
+      @is_over = true
+    end
+  end
+
 end
 
 # USER INTERFACE
 # ask player 1 to provide a word
 # then ask player 2 to start guess
-# keep asking until there are no more blanks, or until max number of guesses is reached
-# give feedback to player after every guess and show how many blanks are left
-# if guess is a duplicate, it does not count against the player
-# congratulate player if they win, and taunt if s/he loses
+# WHILE the game is not over
+# check if guess is a duplicate
+# then check the input
+# check if the player has won for each loop
 
 puts "This is a 2-player game."
 puts "Player 1 - Please type a word for Player 2 to guess:"
 word = gets.chomp.downcase
 game = GuessingGame.new(word)
-system("clear")		# clears the page after Player 1 types the word
+system("clear")   # clears the page after Player 1 types the word
+puts "Player 2 -"
 
+while !game.is_over
+  puts "You have #{game.guesses_left} guess(es) left."
+  puts "Make a guess (1 character at a time): #{game.blanks}"
+  player2_input = gets.chomp
 
-puts "Player 2 - you have a maximum of #{game.guesses_left} guesses."
-
-while game.guesses_left > 0
-	puts "Make a guess (1 character at a time): #{game.player2_guesses}"
-	user_input = gets.chomp
-	
-	if !game.duplicate_guess(user_input)
-		if game.correct_guess?(user_input)
-			if !game.win
-				puts "Good guess! #{game.player2_guesses}"
-				if game.guesses_left == 0
-					puts "TOO BAD! You have no more guesses left. The correct word is '#{game.word}'."
-				else
-					puts "You have #{game.guesses_left} guesses left."
-				end
-			else
-				puts "Great guess! Word: #{game.player2_guesses}"
-				puts "Congratulations! You guessed the word!"
-				exit
-			end
-		else
-			if game.guesses_left > 0
-				puts "Try again. You have #{game.guesses_left} guesses left."
-			else
-				puts "TOO BAD! You have no more guesses left. The correct word is '#{game.word}'."
-			end
-		end
-	else
-		puts "You've previously made that guess, and still have #{game.guesses_left} guesses left."
-	end
+  if !game.char_previously_guessed?(player2_input)
+    game.check_guess(player2_input)
+    game.result
+  end
+  
 end
