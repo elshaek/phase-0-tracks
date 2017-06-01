@@ -119,7 +119,7 @@ end
 # check if guess is a duplicate
 # then check the input
 # check if the player has won for each loop
-=begin
+
 puts "This is a 2-player game."
 puts "Player 1 - Please type a word for Player 2 to guess:"
 word = gets.chomp.downcase
@@ -138,4 +138,3 @@ while !game.is_over
   end
   
 end
-=end
