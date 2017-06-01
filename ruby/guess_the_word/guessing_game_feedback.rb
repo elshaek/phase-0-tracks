@@ -6,6 +6,8 @@ outside each instance of a class. In the case of this guessing game, being able 
 are left for each player, what guesses have been made, and previous guesses are a great use of the 
 attr_reader helper method. But being able to read and write the secret word is a lot of power. A player 
 could easily ruin the game by reading what the secret word is, or overwrite the word entirely.
+- change move :word from attr_accessor to attr_reader
+- 
 
 When we initialize a class, we set the state of each instance whenever the .new method is called. A 
 reasonable state for each game would be the secret word, the number of guesses remaining, perhaps a 
@@ -46,8 +48,7 @@ logic that will run on its own.
 
 
 class GuessingGame
-	attr_accessor :word
-	attr_reader :guesses_left, :player2_guesses, :previous_guesses
+	attr_reader :word, :guesses_left, :player2_guesses, :previous_guesses
 
 	def initialize(guess_word)
 		@word = guess_word
