@@ -66,6 +66,7 @@ class GuessingGame
   def char_previously_guessed?(char)
     if @previous_guesses.include?(char)
       puts "You've previously made that guess."
+      puts "\n"
       true
     else
       @guesses_left -= 1
@@ -79,6 +80,7 @@ class GuessingGame
   # IF not, ask player to try again
   def check_guess(char)
     @secret_word_array = @secret_word.chars
+    @outcome = ""
 
     if @secret_word_array.include?(char)
       @secret_word_array.each_index do |index|
@@ -86,24 +88,26 @@ class GuessingGame
           @blanks[index] = char
         end
       end
-      puts "Good guess!"
+      @outcome = "Good guess!"
     elsif !@secret_word_array.include?(char) && @guesses_left > 0
-      puts "Try again."
+      @outcome = "Try again."
     end
+    @outcome
   end
 
   # check if the user had guessed the word
   # IF there are are no more guesses left and there are still blanks, taunt player
   # IF word was guessed, congratulate player
   def result
+  	@message = ""
     if @blanks == @secret_word
-      puts "CONGRATULATIONS! You guessed the word!"
-      puts "Word: #{@secret_word}"
+      @message = "CONGRATULATIONS! You guessed the word!\nWord: #{@secret_word}"
       @is_over = true
     elsif @blanks != @secret_word && @guesses_left == 0
-      puts "TOO BAD! You have no more guesses left. The correct word is '#{@secret_word}'."
+      @message = "TOO BAD! You have no more guesses left. The correct word is '#{@secret_word}'."
       @is_over = true
     end
+    @message
   end
 
 end
@@ -129,8 +133,8 @@ while !game.is_over
   player2_input = gets.chomp
 
   if !game.char_previously_guessed?(player2_input)
-    game.check_guess(player2_input)
-    game.result
+    puts "#{game.check_guess(player2_input)}"
+    puts "#{game.result}"
   end
   
 end
