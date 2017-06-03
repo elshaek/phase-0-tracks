@@ -1,3 +1,4 @@
+RELEASE 2: Execute SQL Queries
 In the solo_project directory, create a file called queries.txt. For each SQL query you run, paste both the command and the output (if any) into queries.txt.
 
 Run a SQL query for each of the following:
@@ -10,6 +11,10 @@ Run a SQL query for each of the following:
 3|Steven|White|1986-05-05|Manager|4
 4|Melinda|Harris|1963-06-06|VP|3
 5|Catherine|Moss|1960-03-13|Director|5
+6|Calvin|Wormer|1990-08-16|Coordinator|2
+7|Michelle|Wu|1993-03-19|Coordinator|2
+8|Raymond|Chow|1992-04-06||
+9|Katy|Brenner|1985-11-15||
 
 2. Update an item that meets some condition (you can choose a condition that makes sense).
 - command: 
@@ -25,6 +30,8 @@ SELECT * FROM employees, departments WHERE employees.department_id = departments
 3|Steven|White|1986-05-05|Manager|4|4|R&D
 4|Melinda|Harris|1963-06-06|VP|3|3|Accounting and Finance
 5|Catherine|Moss|1960-03-13|Director|5|5|Purchasing
+6|Calvin|Wormer|1990-08-16|Coordinator|2|2|HR
+7|Michelle|Wu|1993-03-19|Coordinator|2|2|HR
 
 4. Display a narrower selection of columns (fewer columns than all of them, in other words) from both tables using one query.
 - command:
@@ -35,7 +42,58 @@ Jane|Doe|Manager|Marketing
 Steven|White|Manager|R&D
 Melinda|Harris|VP|Accounting and Finance
 Catherine|Moss|Director|Purchasing
+Calvin|Wormer|Coordinator|HR
+Michelle|Wu|Coordinator|HR
 
 5. Delete an item that meets some condition (you can choose a condition that makes sense).
 - command: DELETE FROM employees WHERE id=1;
 - output: none
+
+
+RELEASE 3: Research on Your Own
+1. There are lots of different kinds of joins. What are they? Can you apply different conditions to a join to change what's displayed? Can you bookmark any good diagrams that will help you tell different joins apart in the future?
+
+Types of joins: 
+- (INNER) JOIN: Returns records that have matching values in both tables
+- LEFT (OUTER) JOIN: Return all records from the left table, and the matched records from the right table
+- RIGHT (OUTER) JOIN: Return all records from the right table, and the matched records from the left table
+- FULL (OUTER) JOIN: Return all records when there is a match in either left or right table
+- Self JOIN: a regular join, but the table is joined with itself.
+
+Diagram: https://i.stack.imgur.com/qje6o.png; https://www.w3schools.com/sql/sql_join.asp
+
+
+2. Try a few different joins in your database, and record the commands and the output in queries.txt.
+*Error: RIGHT and FULL OUTER JOINs are not currently supported*
+- command: 
+SELECT employees.first_name, employees.last_name, employees.position, departments.name FROM employees LEFT JOIN departments ON employees.department_id=departments.id;
+- output: 
+Jane|Doe|Manager|Marketing
+Steven|White|Manager|R&D
+Melinda|Harris|VP|Accounting and Finance
+Catherine|Moss|Director|Purchasing
+Calvin|Wormer|Coordinator|HR
+Michelle|Wu|Coordinator|HR
+Raymond|Chow||
+Katy|Brenner||
+
+*Select employees who have no assigned department and position*
+- command: SELECT employees.first_name, employees.last_name, employees.position, departments.name FROM employees LEFT JOIN departments ON employees.department_id=departments.id WHERE departments.id IS NULL;
+- output:
+Raymond|Chow||
+Katy|Brenner||
+
+- command: SELECT employees.first_name, employees.last_name, employees.position FROM employees INNER JOIN departments ON employees.department_id=departments.id;
+- output:
+Jane|Doe|Manager
+Steven|White|Manager
+Melinda|Harris|VP
+Catherine|Moss|Director
+Calvin|Wormer|Coordinator
+Michelle|Wu|Coordinator
+
+*Select departments with no employees*
+- command: SELECT departments.name, employees.position FROM departments LEFT JOIN employees ON departments.id=employees.department_id WHERE employees.department_id IS NULL;
+- output: 
+Order Fulfillment|
+Customer Relations|
