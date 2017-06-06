@@ -1,0 +1,28 @@
+8.4
+RELEASE 2: View a Many-to-Many Relationship
+
+1. You've joined two tables before. How do you join three?
+- command:
+SELECT * FROM businesses JOIN reviews ON businesses.id = reviews.business_id JOIN users ON users.id = reviews.user_id;
+
+- output: 
+6|Sushi World|1|5|great food!|6|2|2|Mandy|Kaling
+1|Grundy Hollow Wedding Chapel|2|5|Like something out of a postcard!|1|5|5|Holly|Berry
+5|Plumbing by Janet|3|4|Plumber was late but service was good.|5|7|7|Denzel|George
+
+
+2. There are some repetitive columns if we choose to view all fields. Choose instead to just view the user's names, the business name, the star rating, and the comment.
+- command:
+SELECT users.first_name, users.last_name, businesses.name, reviews.stars, reviews.comment FROM users JOIN reviews ON users.id = reviews.user_id JOIN businesses ON businesses.id = reviews.business_id;
+
+- output:
+Mandy|Kaling|Sushi World|5|great food!
+Holly|Berry|Grundy Hollow Wedding Chapel|5|Like something out of a postcard!
+Denzel|George|Plumbing by Janet|4|Plumber was late but service was good.
+
+3. How do you view the data of all three tables for just one particular business? 
+- command:
+SELECT * FROM businesses JOIN reviews ON businesses.id = reviews.business_id JOIN users ON users.id = reviews.user_id WHERE businesses.id = 6;
+
+- output:
+6|Sushi World|1|5|great food!|6|2|2|Mandy|Kaling
