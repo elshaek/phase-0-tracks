@@ -72,37 +72,60 @@ def correct_password?(pw, users_table_array)
 end
 
 def login(email, pw, users_table_array)
+  succeed = false
   if account_exists?(email, users_table_array) && correct_password?(pw, users_table_array)
     puts "Login successful"
+    succeed = true
+    # then go to the next step of retrieving or adding data
   elsif account_exists?(email, users_table_array) || correct_password?(pw, users_table_array)
     puts "Wrong email or password"
+    # repeat home_page
   else
     puts "Account does not exist"
+    # repeat home_page
   end
+  return succeed
 end
 
 def create_acc(email, pw, users_table_array, db)
+  succeed = false
   if account_exists?(email, users_table_array)
     puts "Account already exists"
+    # repeat home_page
   else
     add_email_pw(email, pw, db)
+    puts "New account created"
+    succeed = true
+  end
+  return succeed
+end
+
+
+
+
+login_successful = false
+registration_successful = false
+
+until login_successful || registration_successful
+
+  puts "What would you like to do? (Please type number only)
+    1. Login
+    2. Create new profile"
+  user_input = gets.chomp.to_i
+  
+  if user_input == 1 || user_input == 2
+    puts "Email:"
+    email_input = gets.chomp
+    puts "Password:"
+    pw_input = gets.chomp
+    
+    if user_input == 1
+      login_successful = login(email_input, pw_input, users_array)
+    elsif user_input == 2
+      registration_successful = create_acc(email_input, pw_input, users_array, db)    
+    end
+  else
+    puts "You did not enter a valid number."
   end
 end
 
-puts "What would you like to do? (Please type number only)
-  1. Login
-  2. Create new profile"
-user_input = gets.chomp.to_i
-
-puts "Email:"
-email_input = gets.chomp
-puts "Password:"
-pw_input = gets.chomp
-
-if user_input == 1
-  login(email_input, pw_input, users_array)
-elsif user_input == 2
-  create_acc(email_input, pw_input, users_array, db)
-else
-  puts "You did not enter a valid number."
-end
