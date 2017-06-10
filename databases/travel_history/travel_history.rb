@@ -33,11 +33,11 @@ SQL
 db.execute(create_users_table)
 db.execute(create_travel_histories_table)
 
-def add_email_pw (email, password)
+def add_email_pw (email, password, db)
   db.execute("INSERT INTO users (email, password) VALUES (?, ?) ", [email, password])
 end
 
-def add_travel_info (departure, arrival, destination, purpose, user_id) # IF NOT EXISTS?
+def add_travel_info (departure, arrival, destination, purpose, user_id, db) # IF NOT EXISTS?
   db.execute("INSERT INTO travel_histories (departure_date, arrival_date, destination, purpose, user_id) VALUES (?, ?, ?, ?, ?)", [departure, arrival, destination, purpose, user_id])
 end
 
@@ -47,44 +47,62 @@ end
 # IF login, ask for email and password, and find and compare with data from users database
 # ELSIF create new account, ask for email and password to be added to database
 # and lead them to the login page after new profile has been created
-email_input = ""
-pw_input = ""
+
 users_array = db.execute("SELECT * FROM users")
 travel_histories_array = db.execute("SELECT * FROM travel_histories")
 
-def input_email_pw
-  puts "Email:"
-  email_input = gets.chomp
-  puts "Password:"
-  pw_input = gets.chomp
+def account_exists?(email, users_table_array)
+  exists = false
+  users_table_array.each do |user_info|
+    if user_info["email"] == email
+      exists = true
+    end
+  end
+  return exists
 end
 
-def login
-  input_email_pw
-  users_array.each do |user_info|
-    if user_info["email"] == email_input && user_info["password"] == pw_input
-      puts "Login successful"
-    elsif user_info["email"] == email_input || user_info["password"] == pw_input
-      puts "You've entered a wrong email or password"
-    else
-      puts "Record does not exist"
+def correct_password?(pw, users_table_array)
+  correct = false
+  users_table_array.each do |user_info|
+    if user_info["password"] == pw
+      correct = true
     end
+  end
+  return correct
+end
+
+def login(email, pw, users_table_array)
+  if account_exists?(email, users_table_array) && correct_password?(pw, users_table_array)
+    puts "Login successful"
+  elsif account_exists?(email, users_table_array) || correct_password?(pw, users_table_array)
+    puts "Wrong email or password"
+  else
+    puts "Account does not exist"
   end
 end
 
-def create_acc
-  input_email_pw
-  add_email_pw(email_input, pw_input)
+def create_acc(email, pw, users_table_array, db)
+  if account_exists?(email, users_table_array)
+    puts "Account already exists"
+  else
+    add_email_pw(email, pw, db)
+  end
 end
 
 puts "What would you like to do? (Please type number only)
   1. Login
   2. Create new profile"
 user_input = gets.chomp.to_i
+
+puts "Email:"
+email_input = gets.chomp
+puts "Password:"
+pw_input = gets.chomp
+
 if user_input == 1
-  login
+  login(email_input, pw_input, users_array)
 elsif user_input == 2
-  create_acc
+  create_acc(email_input, pw_input, users_array, db)
 else
   puts "You did not enter a valid number."
 end
