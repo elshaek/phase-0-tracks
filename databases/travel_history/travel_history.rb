@@ -1,101 +1,90 @@
+# it's hard to keep track of travel history, and it's a hassle to look for them when applying for 
+# different visas. I'm creating this database so everyone in the family can can add and retrieve their 
+# travel history whenever they need the information
+
 # create users table for username and password
 # create travel history table
 
 require 'sqlite3'
 
 db = SQLite3::Database.new("travel_history.db")
+db.results_as_hash = true
 
-create_table_cmd = <<-SQL
-  CREATE TABLE ID NOT EXISTS users (
+create_users_table = <<-SQL
+  CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY,
     email VARCHAR(255),
     password VARCHAR(255)
   );
+SQL
 
-  CREATE TABLE IF NOT EXISTS travel_history (
+create_travel_histories_table = <<-SQL
+  CREATE TABLE IF NOT EXISTS travel_histories (
     id INTEGER PRIMARY KEY,
     departure_date DATE,
     arrival_date DATE,
     destination VARCHAR(255),
     purpose VARCHAR(255),
-    user_id INT
-    FOREIGN KEY(user_id) REFERENCES users(id),
+    user_id INT,
+    FOREIGN KEY(user_id) REFERENCES users(id)
   );
 SQL
 
-db.execute(create_table_cmd)
+db.execute(create_users_table)
+db.execute(create_travel_histories_table)
 
 def add_email_pw (email, password)
   db.execute("INSERT INTO users (email, password) VALUES (?, ?) ", [email, password])
 end
 
-def add_travel_info (departure, arrival, destination, purpose) # IF NOT EXISTS?
-  db.execute("INSERT INTO travel_history (departure_date, arrival_date, destination, purpose) VALUES (?, ?, ?, ?)", [departure, arrival, destination_id, purpose_id])
+def add_travel_info (departure, arrival, destination, purpose, user_id) # IF NOT EXISTS?
+  db.execute("INSERT INTO travel_histories (departure_date, arrival_date, destination, purpose, user_id) VALUES (?, ?, ?, ?, ?)", [departure, arrival, destination, purpose, user_id])
 end
 
-# ask user to create username and password
-# allow users to change password, but not username
+# USER INTERFACE
 
-puts "What would you like to do? (Type the corresponding number)\n
-1. Create a New Account\n
-2. Login"
-login_input = gets.chomp
-
-
-correct_user_input = false
+# ask user if they'd like to login or create a new account
+# IF login, ask for email and password, and find and compare with data from users database
+# ELSIF create new account, ask for email and password to be added to database
+# and lead them to the login page after new profile has been created
+email_input = ""
+pw_input = ""
 users_array = db.execute("SELECT * FROM users")
-user_id = 0
-travel_data_input = 0
+travel_histories_array = db.execute("SELECT * FROM travel_histories")
 
-while !correct_user_input #do
-  puts "Please enter email:"
-  email_input = gets.chomp # assume correct format
-  puts "Please enter password:"
+def input_email_pw
+  puts "Email:"
+  email_input = gets.chomp
+  puts "Password:"
   pw_input = gets.chomp
+end
 
-  if login_input == 1
-    add_email_pw(email_input, pw_input)
-  elsif login_input == 2
-    users_array.each do |user_info|
-      if user_info[1] == email_input && user_info[2] == pw_input
-        correct_user_input = true
-        user_id = user_info[0]
-        puts "What would you like to do: (Type the corresponding number)\n
-        1. Add new travel data\n
-        2. Retrieve travel history"
-        travel_data_input = gets.chomp
-      else
-        puts "Wrong email or password."
-      end
+def login
+  input_email_pw
+  users_array.each do |user_info|
+    if user_info["email"] == email_input && user_info["password"] == pw_input
+      puts "Login successful"
+    elsif user_info["email"] == email_input || user_info["password"] == pw_input
+      puts "You've entered a wrong email or password"
+    else
+      puts "Record does not exist"
     end
   end
 end
 
-if travel_data_input == 1
-  puts "Departure date: (YYYY-MM-DD)"
-  departure = gets.chomp
-  puts "Arrival date: (YYYY-MM-DD)"
-  arrival = gets.chomp
-  puts "Country:"
-  destination = gets.chomp
-  puts "Purpose:"
-  purpose = gets.chomp
-
-  add_travel_info (departure, arrival, destination, purpose, user_id)
-elsif travel_data_input == 2
-  travel_history_array = db.execute("SELECT * FROM travel_history")
-  travel_history_array.each do |travel_data|
-    puts "#{travel_data[0]}. #{travel_data[1]} - #{travel_data[2]} travelled to #{travel_data[3]} for #{travel_data[4]}"
-  end
+def create_acc
+  input_email_pw
+  add_email_pw(email_input, pw_input)
 end
-  
 
-# ask users for travel information: departure date, arrival date, country, purpose of travel
-# let user retrieve all travel data
-
-
-
-
-
-
-# USER INTERFACE
+puts "What would you like to do? (Please type number only)
+  1. Login
+  2. Create new profile"
+user_input = gets.chomp.to_i
+if user_input == 1
+  login
+elsif user_input == 2
+  create_acc
+else
+  puts "You did not enter a valid number."
+end
