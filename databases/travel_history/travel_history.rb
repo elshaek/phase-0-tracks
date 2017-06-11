@@ -37,18 +37,10 @@ def add_email_pw (email, password, db)
   db.execute("INSERT INTO users (email, password) VALUES (?, ?) ", [email, password])
 end
 
-def add_travel_info (departure, arrival, destination, purpose, user_id, db) # IF NOT EXISTS?
+def add_travel_info (departure, arrival, destination, purpose, user_id, db)
   db.execute("INSERT INTO travel_histories (departure_date, arrival_date, destination, purpose, user_id) VALUES (?, ?, ?, ?, ?)", [departure, arrival, destination, purpose, user_id])
 end
 
-# USER INTERFACE
-
-# ask user if they'd like to login or create a new account
-# IF login, ask for email and password, and find and compare with data from users database
-# ELSIF create new account, ask for email and password to be added to database
-# and lead them to the login page after new profile has been created
-
-users_array = db.execute("SELECT * FROM users")
 travel_histories_array = db.execute("SELECT * FROM travel_histories")
 
 def account_exists?(email, users_table_array)
@@ -76,13 +68,10 @@ def login(email, pw, users_table_array)
   if account_exists?(email, users_table_array) && correct_password?(pw, users_table_array)
     puts "Login successful"
     succeed = true
-    # then go to the next step of retrieving or adding data
   elsif account_exists?(email, users_table_array) || correct_password?(pw, users_table_array)
     puts "Wrong email or password"
-    # repeat home_page
   else
     puts "Account does not exist"
-    # repeat home_page
   end
   return succeed
 end
@@ -91,7 +80,6 @@ def create_acc(email, pw, users_table_array, db)
   succeed = false
   if account_exists?(email, users_table_array)
     puts "Account already exists"
-    # repeat home_page
   else
     add_email_pw(email, pw, db)
     puts "New account created"
@@ -100,13 +88,35 @@ def create_acc(email, pw, users_table_array, db)
   return succeed
 end
 
+def retrieve_user_id(email, db)
+  db.execute("SELECT users.id FROM users WHERE users.email=?", [email])[0]["id"]
+end
+p retrieve_user_id("elsha.e.k@gmail.com", db)
+
+def add_new_data(user_id, db)
+  puts "Departure date: (YYYY-MM-DD)"
+  departure = gets.chomp
+  puts "Arrival date:(YYYY-MM-DD)"
+  arrival = gets.chomp
+  puts "Destination country:"
+  country = gets.chomp
+  puts "Purpose of visit:"
+  purpose = gets.chomp
+  add_travel_info(departure, arrival, country, purpose, user_id, db)
+end
 
 
+# USER INTERFACE
+# ask user if they'd like to login or create a new account
+# IF login, ask for email and password, and find and compare with data from users database
+# ELSIF create new account, ask for email and password to be added to database
+# and lead them to the login page after new profile has been created
 
 login_successful = false
 registration_successful = false
 
-until login_successful || registration_successful
+until login_successful
+  users_array = db.execute("SELECT * FROM users")
 
   puts "What would you like to do? (Please type number only)
     1. Login
@@ -119,13 +129,33 @@ until login_successful || registration_successful
     puts "Password:"
     pw_input = gets.chomp
     
-    if user_input == 1
-      login_successful = login(email_input, pw_input, users_array)
+    if user_input == 1 || registration_successful
+      user_input2 = ""
+
+
+      if login_successful = login(email_input, pw_input, users_array)
+        # IF login is successful then go to the next step of retrieving or adding data
+        puts "What would you like to do? (Please type number only)
+          1. Add new travel data
+          2. Retrieve all travel data
+          3. Delete account"
+        user_input2 = gets.chomp.to_i
+        if user_input2 == 1 
+          user_id = retrieve_user_id(email_input, db)
+          add_new_data(user_id, db)
+        elsif user_input2 == 2
+          
+        elsif user_input2 == 3
+          
+        else
+          puts "You did not enter a valid number."
+        end
+      end
     elsif user_input == 2
-      registration_successful = create_acc(email_input, pw_input, users_array, db)    
+      registration_successful = create_acc(email_input, pw_input, users_array, db)
+      # once registration is successful, go back to main page
     end
   else
     puts "You did not enter a valid number."
   end
 end
-
