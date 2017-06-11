@@ -146,6 +146,9 @@ end
 # ELSIF create new account, ask for email and password to be added to database
 # and lead them to the login page after new profile has been created
 
+# once users login, they can add, delete, and retrieve their data
+# users can also choose to permanently delete their account
+
 login_successful = false
 registration_successful = false
 back_to_login = false
@@ -168,6 +171,7 @@ while !login_successful || back_to_login
     if user_input == 1 || registration_successful
            
       if login_successful = login(email_input, pw_input, users_array)
+        
         loop do 
           puts "What would you like to do? (Please type number only)
           1. Add new travel data
