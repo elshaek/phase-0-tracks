@@ -41,8 +41,6 @@ def add_travel_info (departure, arrival, destination, purpose, user_id, db)
   db.execute("INSERT INTO travel_histories (departure_date, arrival_date, destination, purpose, user_id) VALUES (?, ?, ?, ?, ?)", [departure, arrival, destination, purpose, user_id])
 end
 
-travel_histories_array = db.execute("SELECT * FROM travel_histories")
-
 def account_exists?(email, users_table_array)
   exists = false
   users_table_array.each do |user_info|
@@ -91,7 +89,6 @@ end
 def retrieve_user_id(email, db)
   db.execute("SELECT users.id FROM users WHERE users.email=?", [email])[0]["id"]
 end
-p retrieve_user_id("elsha.e.k@gmail.com", db)
 
 def add_new_data(user_id, db)
   puts "Departure date: (YYYY-MM-DD)"
@@ -103,8 +100,19 @@ def add_new_data(user_id, db)
   puts "Purpose of visit:"
   purpose = gets.chomp
   add_travel_info(departure, arrival, country, purpose, user_id, db)
+  puts "Travel data added"
 end
 
+def retrieve_all_data(user_id, db)
+  user_travel_history_array = db.execute("SELECT * FROM travel_histories WHERE travel_histories.user_id=?", [user_id])
+  if !user_travel_history_array.empty?
+    user_travel_history_array.each do |travel_info|
+      puts "#{travel_info["departure_date"]} - #{travel_info["arrival_date"]}: #{travel_info["destination"]} for #{travel_info["purpose"]}"
+    end
+  else
+    puts "No existing data"
+  end
+end
 
 # USER INTERFACE
 # ask user if they'd like to login or create a new account
@@ -133,23 +141,36 @@ until login_successful
       user_input2 = ""
 
 
+
+
+
       if login_successful = login(email_input, pw_input, users_array)
         # IF login is successful then go to the next step of retrieving or adding data
+
+        # travel_histories_array = db.execute("SELECT * FROM travel_histories")
+
         puts "What would you like to do? (Please type number only)
           1. Add new travel data
           2. Retrieve all travel data
           3. Delete account"
         user_input2 = gets.chomp.to_i
+        user_id = retrieve_user_id(email_input, db)
+
         if user_input2 == 1 
-          user_id = retrieve_user_id(email_input, db)
           add_new_data(user_id, db)
+          # return to main data page
         elsif user_input2 == 2
-          
+          retrieve_all_data(user_id, db)
         elsif user_input2 == 3
           
         else
           puts "You did not enter a valid number."
         end
+
+
+
+
+
       end
     elsif user_input == 2
       registration_successful = create_acc(email_input, pw_input, users_array, db)
