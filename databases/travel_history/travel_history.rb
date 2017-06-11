@@ -33,12 +33,16 @@ SQL
 db.execute(create_users_table)
 db.execute(create_travel_histories_table)
 
-def add_email_pw (email, password, db)
+def add_email_pw(email, password, db)
   db.execute("INSERT INTO users (email, password) VALUES (?, ?) ", [email, password])
 end
 
-def add_travel_info (departure, arrival, destination, purpose, user_id, db)
+def add_travel_info(departure, arrival, destination, purpose, user_id, db)
   db.execute("INSERT INTO travel_histories (departure_date, arrival_date, destination, purpose, user_id) VALUES (?, ?, ?, ?, ?)", [departure, arrival, destination, purpose, user_id])
+end
+
+def delete_travel_info(departure, destination, user_id, db)
+  db.execute("DELETE FROM travel_histories WHERE departure_date=? AND destination=? AND user_id=?", [departure, destination, user_id])
 end
 
 def account_exists?(email, users_table_array)
@@ -103,6 +107,16 @@ def add_new_data(user_id, db)
   puts "Travel data added"
 end
 
+def delete_travel_data(user_id, db)
+  retrieve_all_data(user_id, db)
+  puts "Which data would you like to delete?"
+  puts "Departure date: (YYYY-MM-DD)"
+  departure = gets.chomp
+  puts "Destination country:"
+  country = gets.chomp
+  delete_travel_info(departure, country, user_id, db)
+end
+
 def retrieve_all_data(user_id, db)
   user_travel_history_array = db.execute("SELECT * FROM travel_histories WHERE travel_histories.user_id=? ORDER BY departure_date", [user_id])
   if !user_travel_history_array.empty?
@@ -134,8 +148,9 @@ end
 
 login_successful = false
 registration_successful = false
+back_to_login = false
 
-until login_successful
+while !login_successful || back_to_login
   users_array = db.execute("SELECT * FROM users")
 
   puts "What would you like to do? (Please type number only)
@@ -153,25 +168,27 @@ until login_successful
     if user_input == 1 || registration_successful
            
       if login_successful = login(email_input, pw_input, users_array)
-        # IF login is successful then go to the next step of retrieving or adding data
         loop do 
           puts "What would you like to do? (Please type number only)
           1. Add new travel data
-          2. Retrieve all travel data
-          3. Delete account
-          4. Exit"
+          2. Delete travel data
+          3. Retrieve all travel data
+          4. Delete account
+          5. Exit"
           user_input2 = gets.chomp.to_i
           user_id = retrieve_user_id(email_input, db)
   
           if user_input2 == 1 
             add_new_data(user_id, db)
-            # return to main data page
           elsif user_input2 == 2
-            retrieve_all_data(user_id, db)
-            # return to main data page
+            delete_travel_data(user_id, db)
           elsif user_input2 == 3
-            delete_account(user_id, db)
+            retrieve_all_data(user_id, db)
           elsif user_input2 == 4
+            delete_account(user_id, db)
+            back_to_login = true
+            break
+          elsif user_input2 == 5
             exit
           else
             puts "You did not enter a valid number."
@@ -180,7 +197,6 @@ until login_successful
       end
     elsif user_input == 2
       registration_successful = create_acc(email_input, pw_input, users_array, db)
-      # once registration is successful, go back to main page
     end
 
   elsif user_input == 3
