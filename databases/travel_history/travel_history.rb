@@ -104,7 +104,7 @@ def add_new_data(user_id, db)
 end
 
 def retrieve_all_data(user_id, db)
-  user_travel_history_array = db.execute("SELECT * FROM travel_histories WHERE travel_histories.user_id=?", [user_id])
+  user_travel_history_array = db.execute("SELECT * FROM travel_histories WHERE travel_histories.user_id=? ORDER BY departure_date", [user_id])
   if !user_travel_history_array.empty?
     user_travel_history_array.each do |travel_info|
       puts "#{travel_info["departure_date"]} - #{travel_info["arrival_date"]}: #{travel_info["destination"]} for #{travel_info["purpose"]}"
@@ -140,7 +140,8 @@ until login_successful
 
   puts "What would you like to do? (Please type number only)
   1. Login
-  2. Create new profile"
+  2. Create new profile
+  3. Exit"
   user_input = gets.chomp.to_i
   
   if user_input == 1 || user_input == 2
@@ -150,45 +151,40 @@ until login_successful
     pw_input = gets.chomp
     
     if user_input == 1 || registration_successful
-      user_input2 = ""
-
-
-
-
-
+           
       if login_successful = login(email_input, pw_input, users_array)
         # IF login is successful then go to the next step of retrieving or adding data
-
-        # travel_histories_array = db.execute("SELECT * FROM travel_histories")
-
-        puts "What would you like to do? (Please type number only)
-        1. Add new travel data
-        2. Retrieve all travel data
-        3. Delete account"
-        user_input2 = gets.chomp.to_i
-        user_id = retrieve_user_id(email_input, db)
-
-        if user_input2 == 1 
-          add_new_data(user_id, db)
-          # return to main data page
-        elsif user_input2 == 2
-          retrieve_all_data(user_id, db)
-          # return to main data page
-        elsif user_input2 == 3
-          delete_account(user_id, db)
-        else
-          puts "You did not enter a valid number."
+        loop do 
+          puts "What would you like to do? (Please type number only)
+          1. Add new travel data
+          2. Retrieve all travel data
+          3. Delete account
+          4. Exit"
+          user_input2 = gets.chomp.to_i
+          user_id = retrieve_user_id(email_input, db)
+  
+          if user_input2 == 1 
+            add_new_data(user_id, db)
+            # return to main data page
+          elsif user_input2 == 2
+            retrieve_all_data(user_id, db)
+            # return to main data page
+          elsif user_input2 == 3
+            delete_account(user_id, db)
+          elsif user_input2 == 4
+            exit
+          else
+            puts "You did not enter a valid number."
+          end  
         end
-
-
-
-
-
       end
     elsif user_input == 2
       registration_successful = create_acc(email_input, pw_input, users_array, db)
       # once registration is successful, go back to main page
     end
+
+  elsif user_input == 3
+    exit
   else
     puts "You did not enter a valid number."
   end
