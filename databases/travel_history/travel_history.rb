@@ -114,6 +114,18 @@ def retrieve_all_data(user_id, db)
   end
 end
 
+def delete_account(user_id, db)
+  puts "Once account has been deleted, all of your user informationa and travel data
+  will be permanently deleted. Would you like to continue? (y/n)"
+
+  delete_input = gets.chomp.downcase
+  if delete_input == "y"
+    db.execute("DELETE FROM users WHERE id=?", [user_id])
+    db.execute("DELETE FROM travel_histories WHERE id=?", [user_id])
+    puts "Account has been successfully deleted"
+  end
+end
+
 # USER INTERFACE
 # ask user if they'd like to login or create a new account
 # IF login, ask for email and password, and find and compare with data from users database
@@ -127,8 +139,8 @@ until login_successful
   users_array = db.execute("SELECT * FROM users")
 
   puts "What would you like to do? (Please type number only)
-    1. Login
-    2. Create new profile"
+  1. Login
+  2. Create new profile"
   user_input = gets.chomp.to_i
   
   if user_input == 1 || user_input == 2
@@ -150,9 +162,9 @@ until login_successful
         # travel_histories_array = db.execute("SELECT * FROM travel_histories")
 
         puts "What would you like to do? (Please type number only)
-          1. Add new travel data
-          2. Retrieve all travel data
-          3. Delete account"
+        1. Add new travel data
+        2. Retrieve all travel data
+        3. Delete account"
         user_input2 = gets.chomp.to_i
         user_id = retrieve_user_id(email_input, db)
 
@@ -161,8 +173,9 @@ until login_successful
           # return to main data page
         elsif user_input2 == 2
           retrieve_all_data(user_id, db)
+          # return to main data page
         elsif user_input2 == 3
-          
+          delete_account(user_id, db)
         else
           puts "You did not enter a valid number."
         end
