@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Students and Campuses</title>
+  <title>Campuses</title>
 </head>
 <body>
-  <h1>Students and Campuses</h1>
+  <h1>Campuses</h1>
+  <p>Click <a href="campuses/new">here</a> to create a campus.</p>
   <ul>
-    <% @students.each do |student| %>
-      <li><%= student['name'] %>, <%= student['campus'] %></li>
+    <% @campuses.each do |campus| %>
+      <li><%= campus['location'] %></li>
     <% end %>
   </ul>
 </body>
