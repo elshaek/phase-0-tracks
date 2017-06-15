@@ -45,7 +45,6 @@ get '/students/:id' do
   student.to_s
 end
 
-
 # 9.4 Building a Web Application in Ruby
 
 # RELEASE 0: Add Routes
@@ -80,3 +79,15 @@ get '/:num1/:num2' do
   (num1 + num2).to_s
 end
 
+# write a GET route that
+# allows the user to search the database for list of students attending a specified campus
+
+get '/campus/:location/' do
+  location = params[:location]
+  student_list = db.execute("SELECT name FROM students WHERE campus=?", [location])
+  response = ""
+  student_list.each_index do |i|
+    response << "#{i+1}. #{student_list[i]["name"]}<br>"
+  end
+  response
+end
