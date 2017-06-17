@@ -2,7 +2,7 @@ Spend 10 minutes making a plan for how you intend to tackle jQuery and learn as 
 
 1. What sorts of resources will help? 
  
- * Google jQuery to get a general idea of the language
+ * Google jQuery to get a general idea of what the library does
  * Find some jQuery documentation and cheatsheets
 
 2. How often should you stop and test what you just learned? Are breaks important? 
@@ -11,5 +11,5 @@ Spend 10 minutes making a plan for how you intend to tackle jQuery and learn as 
 
 3. Make a few notes on how you plan to approach the topic, and why.
 
-* I usually learn quickest by doing, so doing while researching would probably work best for me
+* I usually learn quickest by doing, so doing while researching would probably work best
 * coming up with different ways I could use jQuery and trying out different things usually also help me figure out what to search for and where to go deeper
