@@ -2,3 +2,10 @@
   width: 225px;
   height: auto;
 }
+
+#toggle-buttons {
+  color: white;
+  background: maroon;
+  width: 150px;
+  padding: 10px 50px;
+}
